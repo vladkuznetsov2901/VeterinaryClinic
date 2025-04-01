@@ -2,6 +2,7 @@
 agp = "8.8.0"
 circleindicator = "2.1.6"
 converterGson = "2.9.0"
+coreSplashscreen = "1.0.1"
 firebaseBom = "33.10.0"
 glide = "4.16.0"
 gson = "2.10.1"
@@ -28,6 +29,7 @@ swiperefreshlayout = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-hilt-navigation-fragment = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hiltNavigationFragment" }
 androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "legacySupportV4" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleViewmodelKtx" }

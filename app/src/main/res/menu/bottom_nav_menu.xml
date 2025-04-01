@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_search"
+        android:title="Главная" />
+
+    <item
+        android:id="@+id/navigation_treatment"
+        android:title="Лечение" />
+
+    <item
+        android:id="@+id/navigation_sign_up"
+        android:title="Записаться" />
+
+    <item
+        android:id="@+id/navigation_chat"
+        android:title="Чат" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:title="Профиль" />
+
+
+</menu>

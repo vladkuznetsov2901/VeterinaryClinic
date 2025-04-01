@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
     id("dagger.hilt.android.plugin")
     kotlin("kapt")
 }
@@ -36,6 +34,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+    }
+    buildFeatures {
+        viewBinding = true
     }
 }
 
@@ -73,12 +74,6 @@ dependencies {
 
     implementation(libs.material)
 
-    implementation(libs.firebase.bom)
-
-    implementation(libs.firebase.crashlytics)
-
-    implementation(libs.firebase.analytics)
-
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.fragment)
@@ -91,6 +86,10 @@ dependencies {
     val paging_version = "3.2.1"
 
     implementation(libs.androidx.paging.runtime.ktx.v321)
+
+    implementation(libs.androidx.core.splashscreen)
+
+
 
     // alternatively - without Android dependencies for tests
     testImplementation(libs.androidx.paging.common.ktx)

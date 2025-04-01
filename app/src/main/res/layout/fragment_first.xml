@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue">
+
+    <!-- Фоновое изображение -->
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/cat_and_dog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Контейнер формы входа -->
+    <LinearLayout
+        android:id="@+id/loginContainer"
+        android:layout_width="0dp"
+        android:layout_height="392dp"
+        android:orientation="vertical"
+        android:background="@drawable/login_container_bg"
+        android:padding="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Заголовок -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Войдите в личный кабинет"
+            android:textSize="18sp"
+            android:textColor="@color/dark_blue"
+            android:textStyle="bold"/>
+
+        <!-- Поле ввода Email -->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Почта/номер телефона"
+            android:background="@drawable/input_field_bg"
+            android:padding="12dp"
+            android:textSize="16sp"/>
+
+        <!-- Поле ввода Пароля -->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Пароль"
+            android:background="@drawable/input_field_bg"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:inputType="textPassword"/>
+
+        <!-- Ссылка 'Забыли пароль?' -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Забыли пароль?"
+            android:textColor="@color/dark_blue"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
+
+        <!-- Кнопка Войти -->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Войти"
+            android:backgroundTint="@color/dark_blue"
+            android:textColor="@color/white"
+            android:layout_marginTop="12dp"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
