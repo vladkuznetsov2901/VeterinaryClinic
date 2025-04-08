@@ -3,22 +3,27 @@
 
     <item
         android:id="@+id/navigation_search"
+        android:icon="@drawable/home_ic"
         android:title="Главная" />
 
     <item
         android:id="@+id/navigation_treatment"
+        android:icon="@drawable/treatment_ic"
         android:title="Лечение" />
 
     <item
         android:id="@+id/navigation_sign_up"
+        android:icon="@drawable/sign_up_ic"
         android:title="Записаться" />
 
     <item
         android:id="@+id/navigation_chat"
+        android:icon="@drawable/chat_ic"
         android:title="Чат" />
 
     <item
         android:id="@+id/navigation_profile"
+        android:icon="@drawable/profile_ic"
         android:title="Профиль" />
 
 
