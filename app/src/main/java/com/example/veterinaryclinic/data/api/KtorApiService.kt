@@ -1,10 +1,12 @@
 package com.example.veterinaryclinic.data.api
 
 
+import com.example.veterinaryclinic.data.models.DoctorWithSpecializationDTO
 import com.example.veterinaryclinic.data.models.LoginData
 import com.example.veterinaryclinic.data.models.Promo
 import com.example.veterinaryclinic.data.models.TokenResponse
 import com.example.veterinaryclinic.data.models.RegistrationData
+import com.example.veterinaryclinic.data.models.SpecializationDTO
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -26,6 +28,13 @@ interface KtorApiService {
 
     @GET("/promo_images")
     suspend fun getPromoImages(): List<String>
+
+    @GET("/specializations")
+    suspend fun getSpecializations(): List<SpecializationDTO>
+
+    @GET("/doctors")
+    suspend fun getDoctors(): List<DoctorWithSpecializationDTO>
+
 }
 
 val ktorRetrofit = Retrofit.Builder().client(

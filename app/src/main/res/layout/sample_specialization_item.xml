@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="16dp"
+    card_view:cardElevation="4dp"
+    android:paddingEnd="7dp"
+    card_view:cardBackgroundColor="#F8F1FF">
+
+    <TextView
+        android:id="@+id/specializationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Терапевт"
+        android:textColor="#8054B8"
+        android:textSize="20sp"
+        android:padding="12dp"
+        android:textStyle="normal"
+        android:fontFamily="sans-serif-medium" />
+</androidx.cardview.widget.CardView>
