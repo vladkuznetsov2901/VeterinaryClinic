@@ -7,6 +7,7 @@ import com.example.veterinaryclinic.data.models.DoctorWithSpecializationDTO
 import com.example.veterinaryclinic.data.models.Promo
 import com.example.veterinaryclinic.data.models.SpecializationDTO
 import com.example.veterinaryclinic.data.models.TokenResponse
+import com.example.veterinaryclinic.domain.usecases.ChatUseCases
 import com.example.veterinaryclinic.domain.usecases.GetDoctorsUseCase
 import com.example.veterinaryclinic.domain.usecases.GetPromoImagesUseCase
 import com.example.veterinaryclinic.domain.usecases.GetSpecializationUseCase
@@ -22,7 +23,8 @@ class MainViewModel @Inject constructor(
     private val userAuthUseCase: UserAuthUseCase,
     private val getPromoImagesUseCase: GetPromoImagesUseCase,
     private val getSpecializationUseCase: GetSpecializationUseCase,
-    private val getDoctorsUseCase: GetDoctorsUseCase
+    private val getDoctorsUseCase: GetDoctorsUseCase,
+    private val chatUseCases: ChatUseCases
 ) : ViewModel() {
 
     private val _token = MutableStateFlow<String>("")

@@ -99,6 +99,9 @@ dependencies {
 
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+
 
     // alternatively - without Android dependencies for tests
     testImplementation(libs.androidx.paging.common.ktx)

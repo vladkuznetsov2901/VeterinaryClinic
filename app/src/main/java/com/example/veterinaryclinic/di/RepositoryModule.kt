@@ -1,9 +1,11 @@
 package com.example.veterinaryclinic.di
 
+import com.example.veterinaryclinic.data.repository.ChatRepositoryImpl
 import com.example.veterinaryclinic.data.repository.DoctorsRepositoryImpl
 import com.example.veterinaryclinic.data.repository.PromoRepositoryImpl
 import com.example.veterinaryclinic.data.repository.SpecializationRepositoryImpl
 import com.example.veterinaryclinic.data.repository.UserRepositoryImpl
+import com.example.veterinaryclinic.domain.repository.ChatRepository
 import com.example.veterinaryclinic.domain.repository.DoctorsRepository
 import com.example.veterinaryclinic.domain.repository.PromoRepository
 import com.example.veterinaryclinic.domain.repository.SpecializationRepository
@@ -35,6 +37,11 @@ class RepositoryModule {
     @Provides
     fun provideDoctorsRepository(): DoctorsRepository {
         return DoctorsRepositoryImpl()
+    }
+
+    @Provides
+    fun provideChatRepository(): ChatRepository {
+        return ChatRepositoryImpl()
     }
 
 }
