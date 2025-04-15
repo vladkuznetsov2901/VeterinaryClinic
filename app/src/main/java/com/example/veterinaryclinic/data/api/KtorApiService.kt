@@ -1,16 +1,17 @@
 package com.example.veterinaryclinic.data.api
 
 
-import com.example.veterinaryclinic.data.models.ChatDTO
-import com.example.veterinaryclinic.data.models.CreateChatRequest
+import com.example.veterinaryclinic.data.models.chats.ChatDTO
+import com.example.veterinaryclinic.data.models.chats.CreateChatRequest
 import com.example.veterinaryclinic.data.models.DoctorWithSpecializationDTO
 import com.example.veterinaryclinic.data.models.LoginData
-import com.example.veterinaryclinic.data.models.MessageDTO
-import com.example.veterinaryclinic.data.models.Promo
+import com.example.veterinaryclinic.data.models.chats.MessageDTO
 import com.example.veterinaryclinic.data.models.TokenResponse
 import com.example.veterinaryclinic.data.models.RegistrationData
-import com.example.veterinaryclinic.data.models.SendMessageRequest
+import com.example.veterinaryclinic.data.models.chats.SendMessageRequest
 import com.example.veterinaryclinic.data.models.SpecializationDTO
+import com.example.veterinaryclinic.data.models.UserIdResponse
+import com.example.veterinaryclinic.data.models.chats.FullChatDTO
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -20,6 +21,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface KtorApiService {
     @POST("/register")
@@ -31,6 +33,16 @@ interface KtorApiService {
     suspend fun loginUser(
         @Body loginData: LoginData,
     ): TokenResponse
+
+    @POST("/doctor_login")
+    suspend fun loginDoctor(
+        @Body loginData: LoginData,
+    ): TokenResponse
+
+    @GET("/get_user_id_by_token")
+    suspend fun getUserIdByToken(
+        @Query("token") token: String
+    ): Response<UserIdResponse>
 
     @GET("/promo_images")
     suspend fun getPromoImages(): List<String>
@@ -61,13 +73,20 @@ interface KtorApiService {
         @Body request: CreateChatRequest
     ): Response<Map<String, Int>>
 
+    @GET("/chats/with_info/{role}/{id}")
+    suspend fun getFullChatsByUserId(
+        @Path("role") role: String,
+        @Path("id") userId: Int
+    ): List<FullChatDTO>
+
+
 }
 
 val ktorRetrofit = Retrofit.Builder().client(
     OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().also {
         it.level = HttpLoggingInterceptor.Level.BODY
     }).build()
-).baseUrl("http://10.0.2.2:8080/")
+).baseUrl("http://192.168.1.5:8080/")
     .addConverterFactory(GsonConverterFactory.create())
     .build()
 

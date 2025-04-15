@@ -1,6 +1,6 @@
 package com.example.veterinaryclinic.domain.usecases
 
-import com.example.veterinaryclinic.data.models.SendMessageRequest
+import com.example.veterinaryclinic.data.models.chats.SendMessageRequest
 import com.example.veterinaryclinic.domain.repository.ChatRepository
 import javax.inject.Inject
 

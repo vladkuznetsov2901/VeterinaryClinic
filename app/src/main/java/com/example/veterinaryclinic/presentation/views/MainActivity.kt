@@ -52,6 +52,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    navController.navigate(R.id.homeFragment)
+                    true
+                }
+                R.id.navigation_chat -> {
+                    navController.navigate(R.id.allChatsFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+
 
 
     }

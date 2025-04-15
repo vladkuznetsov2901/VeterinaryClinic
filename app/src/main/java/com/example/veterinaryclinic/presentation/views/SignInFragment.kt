@@ -1,5 +1,6 @@
 package com.example.veterinaryclinic.presentation.views
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +18,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.getValue
+import androidx.core.content.edit
+import com.example.veterinaryclinic.data.models.AuthResult
+import kotlinx.coroutines.flow.first
 
 @AndroidEntryPoint
 class SignInFragment : Fragment() {
@@ -25,10 +29,7 @@ class SignInFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var mainViewModelFactory: MainViewModelFactory
-
-    private val viewModel: MainViewModel by viewModels { mainViewModelFactory }
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,31 +43,66 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sharedPreferences = context?.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
         binding.signInButton.setOnClickListener {
-
             val emailOrPhone = binding.emailOrPhoneInput.text.toString().trim()
             val password = binding.passwordInput.text.toString()
 
             lifecycleScope.launch {
                 viewModel.userAuth(emailOrPhone, password)
-                viewModel.token.collect { token ->
-                    if (token.isEmpty()) Toast.makeText(
-                        requireContext(), "User auth failed!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    else {
-                        Toast.makeText(
-                            requireContext(), "User auth success!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        findNavController().navigate(R.id.action_authFragment_to_homeFragment)
+
+                viewModel.authResult.collect { result ->
+                    when (result) {
+                        is AuthResult.Success -> {
+                            sharedPreferences?.edit {
+                                putString("token", result.token)
+                                putString("role", "user")
+                            }
+                            if (findNavController().currentDestination?.id == R.id.authFragment) {
+                                findNavController().navigate(R.id.action_authFragment_to_homeFragment)
+                            }
+                        }
+                        is AuthResult.Error -> {
+                            Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
+                        }
+                        else -> {} // do nothing
                     }
                 }
             }
 
 
         }
+
+        binding.signInDoctorButton.setOnClickListener {
+            val emailOrPhone = binding.emailOrPhoneInput.text.toString().trim()
+            val password = binding.passwordInput.text.toString()
+
+            lifecycleScope.launch {
+                viewModel.doctorAuth(emailOrPhone, password)
+
+                viewModel.authResult.collect { result ->
+                    when (result) {
+                        is AuthResult.Success -> {
+                            sharedPreferences?.edit {
+                                putString("token", result.token)
+                                putString("role", "user")
+                            }
+                            if (findNavController().currentDestination?.id == R.id.authFragment) {
+                                findNavController().navigate(R.id.action_authFragment_to_homeFragment)
+                            }
+                        }
+                        is AuthResult.Error -> {
+                            Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
+                        }
+                        else -> {} // do nothing
+                    }
+                }
+            }
+
+
+        }
+
 
     }
 

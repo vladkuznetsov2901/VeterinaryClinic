@@ -1,4 +1,4 @@
-package com.example.veterinaryclinic.data.models
+package com.example.veterinaryclinic.data.models.chats
 
 
 data class MessageDTO(
@@ -6,5 +6,6 @@ data class MessageDTO(
     val chatId: Int,
     val senderType: String,
     val messageText: String,
-    val sentAt: String
+    val sentAt: String,
+    val isRead: Boolean
 )

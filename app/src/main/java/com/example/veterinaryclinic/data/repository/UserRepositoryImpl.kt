@@ -13,4 +13,9 @@ class UserRepositoryImpl @Inject constructor() : UserRepository {
     ): TokenResponse {
         return ktorApiService.loginUser(LoginData(username, password))
     }
+
+    override suspend fun getUserIdByToken(token: String): Int? {
+        val response = ktorApiService.getUserIdByToken(token)
+        return response.body()?.userId
+    }
 }

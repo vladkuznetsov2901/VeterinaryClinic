@@ -1,12 +1,15 @@
 package com.example.veterinaryclinic.presentation.views
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.veterinaryclinic.databinding.FragmentHomeBinding
@@ -32,10 +35,8 @@ class HomeFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var mainViewModelFactory: MainViewModelFactory
+    private val viewModel: MainViewModel by viewModels()
 
-    private val viewModel: MainViewModel by viewModels { mainViewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +50,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.loadHomeDataOnce()
 
         val promoAdapter = PromoAdapter()
 
@@ -71,20 +74,28 @@ class HomeFragment : Fragment() {
         binding.recyclerDoctors.isNestedScrollingEnabled = false
         binding.recyclerDoctors.adapter = doctorsAdapter
 
+
         lifecycleScope.launch {
-            val promoImages = viewModel.getPromoImages()
-            promoAdapter.submitList(promoImages)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.promoImages.collect { promoImages ->
+                    promoAdapter.submitList(promoImages)
+                }
+            }
         }
 
         lifecycleScope.launch {
-            val specializations = viewModel.getSpecializations()
-            specializationAdapter.submitList(specializations)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.specializations.collect { specializations ->
+                    specializationAdapter.submitList(specializations)
+                }
+            }
         }
 
         lifecycleScope.launch {
-            viewModel.getDoctors()
-            viewModel.doctors.collect { doctors ->
-                doctorsAdapter.submitList(doctors)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.doctors.collect { doctors ->
+                    doctorsAdapter.submitList(doctors)
+                }
             }
         }
 
@@ -94,7 +105,6 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 
 
 }

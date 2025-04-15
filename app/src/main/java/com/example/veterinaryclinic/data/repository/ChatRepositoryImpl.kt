@@ -1,11 +1,11 @@
 package com.example.veterinaryclinic.data.repository
 
-import com.example.veterinaryclinic.data.api.KtorApiService
 import com.example.veterinaryclinic.data.api.ktorApiService
-import com.example.veterinaryclinic.data.models.ChatDTO
-import com.example.veterinaryclinic.data.models.CreateChatRequest
-import com.example.veterinaryclinic.data.models.MessageDTO
-import com.example.veterinaryclinic.data.models.SendMessageRequest
+import com.example.veterinaryclinic.data.models.chats.ChatDTO
+import com.example.veterinaryclinic.data.models.chats.CreateChatRequest
+import com.example.veterinaryclinic.data.models.chats.FullChatDTO
+import com.example.veterinaryclinic.data.models.chats.MessageDTO
+import com.example.veterinaryclinic.data.models.chats.SendMessageRequest
 import com.example.veterinaryclinic.domain.repository.ChatRepository
 
 class ChatRepositoryImpl() : ChatRepository {
@@ -30,5 +30,9 @@ class ChatRepositoryImpl() : ChatRepository {
         } else {
             throw Exception("Chat creation failed: ${response.code()}")
         }
+    }
+
+    override suspend fun getFullChatsByUserId(role: String, userId: Int): List<FullChatDTO> {
+        return ktorApiService.getFullChatsByUserId(role, userId)
     }
 }
