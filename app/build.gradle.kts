@@ -67,6 +67,7 @@ dependencies {
 
     //Glide
     implementation(libs.glide)
+    implementation(libs.firebase.crashlytics.buildtools)
     kapt("com.github.bumptech.glide:compiler:4.12.0")
 
     //Paging
@@ -101,7 +102,11 @@ dependencies {
 
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 
-
+    implementation("io.ktor:ktor-client-core:2.3.8")
+    implementation("io.ktor:ktor-client-okhttp:2.3.4")
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.4")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.8")
+    implementation("io.ktor:ktor-client-logging:2.3.4")
 
     // alternatively - without Android dependencies for tests
     testImplementation(libs.androidx.paging.common.ktx)

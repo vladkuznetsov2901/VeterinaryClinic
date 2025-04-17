@@ -46,5 +46,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="chats">Чат</string>
     <string name="forgot_password_txt">Забыли пароль?</string>
-    <string name="no_connection_txt">Упс... Нет подключения к интернету</string>
+    <string name="no_connection_txt">Упс... \nНет подключения к интернету</string>
+    <string name="try_one_more_time_txt">Попробуйте ещё раз</string>
 </resources>

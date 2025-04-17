@@ -80,6 +80,15 @@ interface KtorApiService {
     ): List<FullChatDTO>
 
 
+    @POST("/send-code")
+    suspend fun sendRecoveryCode(@Body body: Map<String, String>)
+
+    @POST("/verify-code")
+    suspend fun verifyRecoveryCode(@Body body: Map<String, String>)
+
+    @POST("/change-password")
+    suspend fun changePassword(@Body body: Map<String, String>)
+
 }
 
 val ktorRetrofit = Retrofit.Builder().client(

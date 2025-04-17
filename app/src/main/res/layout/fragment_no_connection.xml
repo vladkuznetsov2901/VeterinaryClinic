@@ -26,27 +26,42 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="47dp"
         android:layout_weight="0"
-        android:textSize="32sp"
-        android:textColor="#BD4C4C"
-        android:gravity="center_horizontal"
+        android:lineHeight="30dp"
         android:fontFamily="@font/balsamiq_sans_bold"
-        android:text="@string/no_connection_txt" />
+        android:gravity="center_horizontal"
+        android:text="@string/no_connection_txt"
+        android:textColor="#BD4C4C"
+        android:textSize="32sp" />
 
     <TextView
         android:layout_width="328dp"
         android:layout_height="wrap_content"
-        android:text="Убедитесь, что Wi-Fi или сотовая связь включены, а затем повторите попытку "
-        android:fontFamily="@font/montserrat"
         android:layout_gravity="center_horizontal"
-        android:gravity="center"
         android:layout_marginTop="4dp"
-        android:textSize="16sp"/>
+        android:fontFamily="@font/montserrat"
+        android:gravity="center"
+        android:text="Убедитесь, что Wi-Fi или сотовая связь включены, а затем повторите попытку "
+        android:textSize="16sp" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/retry_connection_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Попробуйте ещё раз"
-        android:background="#BD4C4C">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="42dp"
+        android:background="@drawable/retry_connection_btn"
+        android:paddingHorizontal="45dp"
+        android:paddingVertical="17dp"
+        android:textColor="@color/white"
+        android:text="@string/try_one_more_time_txt"
+        android:textAllCaps="false">
 
-    </Button>
+    </androidx.appcompat.widget.AppCompatButton>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/retry_connection_screen_img"
+        android:layout_gravity="center_horizontal"/>
+
 </LinearLayout>

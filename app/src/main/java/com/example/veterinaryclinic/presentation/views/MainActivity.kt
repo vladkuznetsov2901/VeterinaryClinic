@@ -5,20 +5,28 @@ import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.example.veterinaryclinic.R
+import com.example.veterinaryclinic.data.NetworkMonitor
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var networkMonitor: NetworkMonitor
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
@@ -41,9 +49,24 @@ class MainActivity : AppCompatActivity() {
 
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
+        lifecycleScope.launch {
+            networkMonitor.isConnected.collect { isConnected ->
+                if (!isConnected) {
+                    val currentDestination = navController.currentDestination?.id
+
+                    if (currentDestination != R.id.noConnectionFragment) {
+                        navController.navigate(R.id.noConnectionFragment)
+                    }
+                }
+            }
+        }
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.authFragment -> {
+                    bottomNavigationView.visibility = View.GONE
+                }
+                R.id.noConnectionFragment -> {
                     bottomNavigationView.visibility = View.GONE
                 }
                 else -> {
