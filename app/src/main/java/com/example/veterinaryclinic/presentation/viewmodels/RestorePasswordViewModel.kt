@@ -3,11 +3,13 @@ package com.example.veterinaryclinic.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.veterinaryclinic.domain.repository.RestorePasswordRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class RestorePasswordViewModel @Inject constructor(
     private val restorePasswordRepository: RestorePasswordRepository
 ) : ViewModel() {
@@ -30,48 +32,56 @@ class RestorePasswordViewModel @Inject constructor(
         data class Error(val message: String) : UiState()
     }
 
-    fun sendEmail() {
+    fun setEmail(value: String) {
+        _email.value = value
+    }
+
+    fun setCode(value: String) {
+        _code.value = value
+    }
+
+    fun sendCode(email: String) {
         viewModelScope.launch {
-            uiState = UiState.Loading
+            _uiState.value = UiState.Loading
             try {
                 restorePasswordRepository.sendMessage(email)
-                uiState = UiState.EmailSent
+                _uiState.value = UiState.EmailSent
             } catch (e: Exception) {
-                uiState = UiState.Error("Не удалось отправить код: ${e.localizedMessage}")
+                _uiState.value = UiState.Error("Не удалось отправить код: ${e.localizedMessage}")
             }
         }
     }
 
-    fun verifyCode() {
+    fun verifyCode(email: String, code: String) {
         viewModelScope.launch {
-            uiState = UiState.Loading
+            _uiState.value = UiState.Loading
             try {
                 restorePasswordRepository.verifyCode(email, code)
-                uiState = UiState.CodeVerified
+                _uiState.value = UiState.CodeVerified
             } catch (e: Exception) {
-                uiState = UiState.Error("Код неверен или истёк")
+                _uiState.value = UiState.Error("Код неверен или истёк")
             }
         }
     }
 
-    fun changePassword() {
+    fun changePassword(password: String, confirmPassword: String, email: String, code: String) {
         viewModelScope.launch {
             if (password != confirmPassword) {
-                uiState = UiState.Error("Пароли не совпадают")
+                _uiState.value = UiState.Error("Пароли не совпадают")
                 return@launch
             }
 
-            uiState = UiState.Loading
+            _uiState.value = UiState.Loading
             try {
                 restorePasswordRepository.changePassword(email, code, password)
-                uiState = UiState.PasswordChanged
+                _uiState.value = UiState.PasswordChanged
             } catch (e: Exception) {
-                uiState = UiState.Error("Не удалось изменить пароль")
+                _uiState.value = UiState.Error("Не удалось изменить пароль")
             }
         }
     }
 
     fun resetState() {
-        uiState = UiState.Idle
+        _uiState.value = UiState.Idle
     }
 }

@@ -46,7 +46,7 @@ class SignInFragment : Fragment() {
         val sharedPreferences = context?.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
         binding.signInButton.setOnClickListener {
-            val emailOrPhone = binding.emailOrPhoneInput.text.toString().trim()
+            val emailOrPhone = binding.emailInput.text.toString().trim()
             val password = binding.passwordInput.text.toString()
 
             lifecycleScope.launch {
@@ -75,7 +75,7 @@ class SignInFragment : Fragment() {
         }
 
         binding.signInDoctorButton.setOnClickListener {
-            val emailOrPhone = binding.emailOrPhoneInput.text.toString().trim()
+            val emailOrPhone = binding.emailInput.text.toString().trim()
             val password = binding.passwordInput.text.toString()
 
             lifecycleScope.launch {
@@ -101,6 +101,10 @@ class SignInFragment : Fragment() {
             }
 
 
+        }
+
+        binding.forgotPassword.setOnClickListener {
+            findNavController().navigate(R.id.action_authFragment_to_forgotPasswordFragment)
         }
 
 

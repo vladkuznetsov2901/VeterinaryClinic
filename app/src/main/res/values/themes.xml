@@ -9,8 +9,8 @@
     </style>
 
     <style name="Theme.VeterinaryClinic.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/background</item>
         <item name="android:windowBackground">@drawable/splash_layer</item>
+        <item name="android:logo">@drawable/logo</item>
         <item name="postSplashScreenTheme">@style/Theme.VeterinaryClinic</item>
     </style>
 

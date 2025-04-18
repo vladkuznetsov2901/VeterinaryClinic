@@ -3,11 +3,13 @@ package com.example.veterinaryclinic.di
 import com.example.veterinaryclinic.data.repository.ChatRepositoryImpl
 import com.example.veterinaryclinic.data.repository.DoctorsRepositoryImpl
 import com.example.veterinaryclinic.data.repository.PromoRepositoryImpl
+import com.example.veterinaryclinic.data.repository.RestorePasswordRepositoryImpl
 import com.example.veterinaryclinic.data.repository.SpecializationRepositoryImpl
 import com.example.veterinaryclinic.data.repository.UserRepositoryImpl
 import com.example.veterinaryclinic.domain.repository.ChatRepository
 import com.example.veterinaryclinic.domain.repository.DoctorsRepository
 import com.example.veterinaryclinic.domain.repository.PromoRepository
+import com.example.veterinaryclinic.domain.repository.RestorePasswordRepository
 import com.example.veterinaryclinic.domain.repository.SpecializationRepository
 import com.example.veterinaryclinic.domain.repository.UserRepository
 import dagger.Module
@@ -42,6 +44,11 @@ class RepositoryModule {
     @Provides
     fun provideChatRepository(): ChatRepository {
         return ChatRepositoryImpl()
+    }
+
+    @Provides
+    fun provideRestorePasswordRepository(): RestorePasswordRepository {
+        return RestorePasswordRepositoryImpl()
     }
 
 }

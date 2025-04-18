@@ -28,15 +28,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var networkMonitor: NetworkMonitor
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
-
-        var keepSplashScreen = true
-        splashScreen.setKeepOnScreenCondition { keepSplashScreen }
-
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(2000)
-            keepSplashScreen = false
-        }
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -67,6 +58,9 @@ class MainActivity : AppCompatActivity() {
                     bottomNavigationView.visibility = View.GONE
                 }
                 R.id.noConnectionFragment -> {
+                    bottomNavigationView.visibility = View.GONE
+                }
+                R.id.forgotPasswordFragment, R.id.codeFragment, R.id.newPasswordFragment -> {
                     bottomNavigationView.visibility = View.GONE
                 }
                 else -> {

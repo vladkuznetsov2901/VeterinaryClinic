@@ -5,13 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.veterinaryclinic.R
 import com.example.veterinaryclinic.databinding.FragmentForgotPasswordBinding
 import com.example.veterinaryclinic.databinding.FragmentHomeBinding
 import com.example.veterinaryclinic.presentation.viewmodels.MainViewModel
+import com.example.veterinaryclinic.presentation.viewmodels.RestorePasswordViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ForgotPasswordFragment : Fragment() {
@@ -20,7 +24,7 @@ class ForgotPasswordFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: RestorePasswordViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +41,32 @@ class ForgotPasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val bundle = Bundle()
 
         binding.sendButton.setOnClickListener {
             val email = binding.emailInput.text.toString()
-            viewModel.sendCode(email) {
-                findNavController().navigate(R.id.action_forgotPasswordFragment_to_codeFragment)
+            viewModel.setEmail(email)
+            bundle.putString("user_email", email)
+            viewModel.sendCode(email)
+        }
+
+        lifecycleScope.launch {
+            viewModel.uiState.collect { state ->
+                when (state) {
+                    is RestorePasswordViewModel.UiState.EmailSent -> {
+                        findNavController().navigate(
+                            R.id.action_forgotPasswordFragment_to_codeFragment,
+                            bundle
+                        )
+                        viewModel.resetState()
+                    }
+
+                    is RestorePasswordViewModel.UiState.Error -> {
+                        Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                    else -> {}
+                }
             }
         }
 
