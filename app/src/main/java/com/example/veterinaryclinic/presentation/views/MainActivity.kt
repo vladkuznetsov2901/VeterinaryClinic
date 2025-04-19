@@ -33,7 +33,8 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_activity_main) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_activity_main) as NavHostFragment
         val navController: NavController = navHostFragment.navController
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.nav_view)
@@ -57,12 +58,15 @@ class MainActivity : AppCompatActivity() {
                 R.id.authFragment -> {
                     bottomNavigationView.visibility = View.GONE
                 }
+
                 R.id.noConnectionFragment -> {
                     bottomNavigationView.visibility = View.GONE
                 }
+
                 R.id.forgotPasswordFragment, R.id.codeFragment, R.id.newPasswordFragment -> {
                     bottomNavigationView.visibility = View.GONE
                 }
+
                 else -> {
                     bottomNavigationView.visibility = View.VISIBLE
                 }
@@ -75,14 +79,20 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.homeFragment)
                     true
                 }
+
                 R.id.navigation_chat -> {
                     navController.navigate(R.id.allChatsFragment)
                     true
                 }
+
+                R.id.navigation_treatment -> {
+                    navController.navigate(R.id.treatmentFragment)
+                    true
+                }
+
                 else -> false
             }
         }
-
 
 
     }

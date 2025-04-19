@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_homeFragment_to_noConnectionFragment"
             app:destination="@id/noConnectionFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_treatmentFragment"
+            app:destination="@id/treatmentFragment" />
     </fragment>
     <fragment
         android:id="@+id/allChatsFragment"
@@ -81,6 +84,9 @@
         <action
             android:id="@+id/action_noConnectionFragment_to_allChatsFragment"
             app:destination="@id/allChatsFragment" />
+        <action
+            android:id="@+id/action_noConnectionFragment_to_treatmentFragment"
+            app:destination="@id/treatmentFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
@@ -114,5 +120,16 @@
         <action
             android:id="@+id/action_newPasswordFragment_to_authFragment"
             app:destination="@id/authFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/treatmentFragment"
+        android:name="com.example.veterinaryclinic.presentation.views.TreatmentFragment"
+        android:label="TreatmentFragment" >
+        <action
+            android:id="@+id/action_treatmentFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_treatmentFragment_to_noConnectionFragment"
+            app:destination="@id/noConnectionFragment" />
     </fragment>
 </navigation>

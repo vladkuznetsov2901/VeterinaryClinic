@@ -1,16 +1,15 @@
 package com.example.veterinaryclinic.presentation.adapters
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.veterinaryclinic.R
 import com.example.veterinaryclinic.data.models.DoctorWithSpecializationDTO
-import com.example.veterinaryclinic.data.models.Promo
 import com.example.veterinaryclinic.databinding.SampleDoctorItemBinding
-import com.example.veterinaryclinic.databinding.SamplePromoImageItemBinding
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
@@ -29,6 +28,7 @@ class DoctorsAdapter :
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DoctorViewHolder, position: Int) {
         val doctor = getItem(position)
         with(holder.binding) {
@@ -43,6 +43,7 @@ class DoctorsAdapter :
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun calculateDoctorExperience(startDateString: String): Int {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val startDate = LocalDate.parse(startDateString, formatter)

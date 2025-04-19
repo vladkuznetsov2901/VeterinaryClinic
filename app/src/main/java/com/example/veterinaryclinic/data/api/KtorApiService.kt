@@ -12,6 +12,8 @@ import com.example.veterinaryclinic.data.models.chats.SendMessageRequest
 import com.example.veterinaryclinic.data.models.SpecializationDTO
 import com.example.veterinaryclinic.data.models.UserIdResponse
 import com.example.veterinaryclinic.data.models.chats.FullChatDTO
+import com.example.veterinaryclinic.data.models.treatment.PetDto
+import com.example.veterinaryclinic.data.models.treatment.PrescriptionDto
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -34,24 +36,27 @@ interface KtorApiService {
         @Body loginData: LoginData,
     ): TokenResponse
 
-    @POST("/doctor_login")
-    suspend fun loginDoctor(
-        @Body loginData: LoginData,
-    ): TokenResponse
-
     @GET("/get_user_id_by_token")
     suspend fun getUserIdByToken(
         @Query("token") token: String
     ): Response<UserIdResponse>
 
+
     @GET("/promo_images")
     suspend fun getPromoImages(): List<String>
+
+
+    @POST("/doctor_login")
+    suspend fun loginDoctor(
+        @Body loginData: LoginData,
+    ): TokenResponse
 
     @GET("/specializations")
     suspend fun getSpecializations(): List<SpecializationDTO>
 
     @GET("/doctors")
     suspend fun getDoctors(): List<DoctorWithSpecializationDTO>
+
 
     @GET("/chats/{userId}")
     suspend fun getChatsByUserId(
@@ -88,6 +93,15 @@ interface KtorApiService {
 
     @POST("/change-password")
     suspend fun changePassword(@Body body: Map<String, String>)
+
+
+    @GET("pets/{userId}")
+    suspend fun getPetsByUserId(@Path("userId") userId: Int): List<PetDto>
+
+
+    @GET("prescriptions/active/{petId}")
+    suspend fun getPrescriptionsForPet(@Path("petId") petId: Int): List<PrescriptionDto>
+
 
 }
 

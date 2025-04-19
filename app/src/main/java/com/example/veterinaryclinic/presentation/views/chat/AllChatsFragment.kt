@@ -53,6 +53,7 @@ class AllChatsFragment : Fragment() {
 
         val chatsAdapter = ChatsAdapter { chat ->
             val bundle = Bundle().apply {
+
                 putInt("chat_id", chat.chatId)
                 putInt("doctor_id", chat.doctorId)
                 putString("doctor_name", chat.doctorName)

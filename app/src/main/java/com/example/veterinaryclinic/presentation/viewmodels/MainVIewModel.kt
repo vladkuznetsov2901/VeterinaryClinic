@@ -105,6 +105,7 @@ class MainViewModel @Inject constructor(
                     if (it != null) {
                         _userId.value = it
                     }
+
                 },
                 onFailure = { Log.d("userAuth", it.message ?: "Error") }
             )

@@ -86,7 +86,8 @@ class SignInFragment : Fragment() {
                         is AuthResult.Success -> {
                             sharedPreferences?.edit {
                                 putString("token", result.token)
-                                putString("role", "user")
+                                putString("role", "doctor")
+
                             }
                             if (findNavController().currentDestination?.id == R.id.authFragment) {
                                 findNavController().navigate(R.id.action_authFragment_to_homeFragment)

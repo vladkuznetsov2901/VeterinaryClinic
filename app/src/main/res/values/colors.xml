@@ -9,5 +9,9 @@
     <color name="turquoise">#B9E2EB</color>
     <color name="light_gray">#D3D3D3</color>
     <color name="icon_color">#5D4381</color>
+    <color name="purple">#7859A3</color>
+    <color name="medicine_default_bg">#F9F5FF</color>
+    <color name="color_planned">#7F7F7F</color>
+    <color name="green">#58B344</color>
 
 </resources>
