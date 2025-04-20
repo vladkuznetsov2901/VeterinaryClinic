@@ -7,6 +7,7 @@ data class PrescriptionItemDto(
     val durationDays: Int,
     val startDate: String,
     val endDate: String,
+    val notes: String,
     val medication: MedicationDto?,
     val schedule: List<MedicationScheduleDto>
 )

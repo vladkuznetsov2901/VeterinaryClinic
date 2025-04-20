@@ -11,6 +11,8 @@ import com.bumptech.glide.Glide
 import com.example.veterinaryclinic.R
 import com.example.veterinaryclinic.data.models.treatment.PrescriptionItemWithMedicationDto
 import com.example.veterinaryclinic.databinding.ItemMedicineBinding
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 class PrescriptionAdapter :
     ListAdapter<PrescriptionItemWithMedicationDto, PrescriptionAdapter.ItemMedicineViewHolder>(DiffCallback()) {
@@ -40,11 +42,7 @@ class PrescriptionAdapter :
                     .into(medicineImage)
             }
 
-            val nextPlannedTime = item.schedule
-                .firstOrNull { !it.isTaken }
-                ?.plannedTime
 
-            medicinePlanned.text = nextPlannedTime?.let { "Принять в $it" } ?: "Все приёмы завершены"
 
             val timesAdapter = TimeAdapter()
             medicineTimesRecycler.adapter = timesAdapter

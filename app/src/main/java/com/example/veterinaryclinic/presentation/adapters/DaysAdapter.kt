@@ -12,10 +12,12 @@ import com.example.veterinaryclinic.R
 import com.example.veterinaryclinic.data.models.treatment.DayItem
 import com.example.veterinaryclinic.data.models.treatment.DayState
 import com.example.veterinaryclinic.databinding.ItemDayBinding
+import java.time.LocalDate
 
 class DaysAdapter :
     ListAdapter<DayItem, DaysAdapter.ItemDayViewHolder>(DiffCallback()) {
 
+    var onDayClick: ((LocalDate) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemDayViewHolder {
         return ItemDayViewHolder(
@@ -33,28 +35,46 @@ class DaysAdapter :
         with(holder.binding) {
             dayNumber.text = day.dayNumber.toString()
             dayWeek.text = day.dayOfWeek
+
             when (day.state) {
                 DayState.AVAILABLE -> {
                     dayStatus.setImageResource(R.drawable.ic_check_green)
                     dayStatus.visibility = View.VISIBLE
+                    root.setBackgroundResource(R.drawable.bg_day_default)
                 }
+
                 DayState.UNAVAILABLE -> {
                     dayStatus.setImageResource(R.drawable.ic_missing_item)
                     dayStatus.visibility = View.VISIBLE
+                    root.setBackgroundResource(R.drawable.bg_day_default)
                 }
+
                 DayState.SELECTED -> {
+                    if (dayStatus.drawable != null) {
+                        dayStatus.visibility = View.VISIBLE
+                    } else dayStatus.visibility = View.INVISIBLE
+
                     root.setBackgroundResource(R.drawable.bg_day_selected)
                 }
+
                 DayState.DEFAULT -> {
+                    dayStatus.visibility = View.INVISIBLE
+                    root.setBackgroundResource(R.drawable.bg_day_default)
+                }
+
+                DayState.IN_PROCESS -> {
                     dayStatus.setImageResource(R.drawable.ic_item_in_process)
+                    dayStatus.visibility = View.VISIBLE
                     root.setBackgroundResource(R.drawable.bg_day_default)
                 }
 
             }
+
+            root.setOnClickListener {
+                onDayClick?.invoke(day.date)
+            }
         }
-
     }
-
 
     class ItemDayViewHolder(val binding: ItemDayBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -63,7 +83,7 @@ class DaysAdapter :
         override fun areItemsTheSame(
             oldItem: DayItem,
             newItem: DayItem
-        ) = oldItem.dayNumber == newItem.dayNumber
+        ) = oldItem.date == newItem.date
 
         override fun areContentsTheSame(
             oldItem: DayItem,

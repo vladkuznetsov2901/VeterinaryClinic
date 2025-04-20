@@ -10,7 +10,7 @@ fun List<PrescriptionDto>.toMedicationDisplayList(): List<PrescriptionItemWithMe
             if (medication != null) {
                 PrescriptionItemWithMedicationDto(
                     medicationName = medication.medicationName,
-                    instruction = item.frequency ?: item.dosage ?: "Инструкция отсутствует",
+                    instruction = (item.dosage + " " + item.notes.lowercase()),
                     schedule = item.schedule,
                     imageUrl = medication.imageUrl
                 )

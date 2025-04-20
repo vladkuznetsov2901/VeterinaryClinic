@@ -4,5 +4,6 @@ enum class DayState {
     AVAILABLE,
     UNAVAILABLE,
     SELECTED,
-    DEFAULT
+    DEFAULT,
+    IN_PROCESS
 }

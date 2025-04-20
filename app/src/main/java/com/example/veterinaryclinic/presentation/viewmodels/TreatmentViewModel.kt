@@ -1,6 +1,9 @@
 package com.example.veterinaryclinic.presentation.viewmodels
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.veterinaryclinic.data.models.treatment.DayItem
@@ -16,6 +19,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
@@ -33,6 +38,16 @@ class TreatmentViewModel @Inject constructor(
         MutableStateFlow<List<PrescriptionItemWithMedicationDto>>(emptyList())
     val prescriptions = _prescriptions.asStateFlow()
 
+    private val _filteredPrescriptions =
+        MutableStateFlow<List<PrescriptionItemWithMedicationDto>>(emptyList())
+    val filteredPrescriptions = _filteredPrescriptions.asStateFlow()
+
+    val selectedDate = MutableLiveData<LocalDate>() // Хранит выбранную дату
+
+    private val _days = MutableStateFlow<List<DayItem>>(emptyList())
+    val days = _days.asStateFlow()
+
+
     fun loadPets(userId: Int) {
         viewModelScope.launch {
             kotlin.runCatching {
@@ -40,13 +55,13 @@ class TreatmentViewModel @Inject constructor(
             }.fold(
                 onSuccess = {
                     _pets.value = it
-
                 },
                 onFailure = { Log.d("pets", it.message ?: "Error") }
             )
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun loadPrescriptionByPetId(petId: Int) {
         viewModelScope.launch {
             kotlin.runCatching {
@@ -55,7 +70,7 @@ class TreatmentViewModel @Inject constructor(
                 onSuccess = {
                     val medicationList = it.toMedicationDisplayList()
                     _prescriptions.value = medicationList
-
+                    filterPrescriptionsBySelectedDate(medicationList)
                 },
                 onFailure = { Log.d("prescriptions", it.message ?: "Error") }
             )
@@ -63,6 +78,7 @@ class TreatmentViewModel @Inject constructor(
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun generateDaysOfMonth(year: Int, month: Int): List<DayItem> {
         val list = mutableListOf<DayItem>()
         val calendar = Calendar.getInstance()
@@ -76,6 +92,7 @@ class TreatmentViewModel @Inject constructor(
                 DayItem(
                     dayNumber = day,
                     dayOfWeek = dayOfWeek,
+                    date = LocalDate.of(year, month, day),
                     state = DayState.DEFAULT
                 )
             )
@@ -83,5 +100,56 @@ class TreatmentViewModel @Inject constructor(
         return list
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onDateSelected(date: LocalDate) {
+        selectedDate.value = date
+        val filtered = filterPrescriptionsByDate(prescriptions.value, date)
+        _filteredPrescriptions.value = filtered
 
+        val updatedDays = updateDayStates(generateDaysOfMonth(date.year, date.monthValue), prescriptions.value)
+        _days.value = updatedDays
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun filterPrescriptionsByDate(
+        prescriptions: List<PrescriptionItemWithMedicationDto>,
+        date: LocalDate
+    ): List<PrescriptionItemWithMedicationDto> {
+        return prescriptions.mapNotNull { item ->
+            val filteredSchedule = item.schedule.filter { schedule ->
+                val dateTime = LocalDateTime.parse(schedule.plannedTime)
+                dateTime.toLocalDate() == date
+            }
+            if (filteredSchedule.isNotEmpty()) {
+                item.copy(schedule = filteredSchedule)
+            } else null
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun updateDayStates(days: List<DayItem>, prescriptions: List<PrescriptionItemWithMedicationDto>): List<DayItem> {
+        return days.map { day ->
+            val hasMedication = prescriptions.any { prescription ->
+                prescription.schedule.any { schedule ->
+                    LocalDateTime.parse(schedule.plannedTime).toLocalDate() == day.date
+                }
+            }
+            day.copy(
+                state = when {
+                    selectedDate.value == day.date -> DayState.SELECTED
+                    hasMedication -> DayState.IN_PROCESS
+                    else -> DayState.DEFAULT
+                }
+            )
+        }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun filterPrescriptionsBySelectedDate(prescriptions: List<PrescriptionItemWithMedicationDto>) {
+        selectedDate.value?.let { selected ->
+            val filtered = filterPrescriptionsByDate(prescriptions, selected)
+            _filteredPrescriptions.value = filtered
+        }
+    }
 }

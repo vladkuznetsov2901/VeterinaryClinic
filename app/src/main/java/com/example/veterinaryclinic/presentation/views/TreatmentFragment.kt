@@ -1,11 +1,13 @@
 package com.example.veterinaryclinic.presentation.views
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
@@ -47,6 +50,7 @@ class TreatmentFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val sharedPreferences = context?.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
@@ -57,20 +61,36 @@ class TreatmentFragment : Fragment() {
         binding.daysRecycler.adapter = daysAdapter
         binding.medicinesRecycler.adapter = prescriptionAdapter
 
+        val today = LocalDate.now()
+        binding.profileDate.text =
+            "${today.dayOfMonth}.${today.monthValue}.${today.year}"
+        viewModel.onDateSelected(today)
 
-        daysAdapter.submitList(
-            viewModel.generateDaysOfMonth(
-                Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH) + 1
-            )
-        )
+
+
+        daysAdapter.onDayClick = { selectedDate ->
+            viewModel.onDateSelected(selectedDate)
+            binding.profileDate.text =
+                "${selectedDate.dayOfMonth}.${selectedDate.monthValue}.${selectedDate.year}"
+        }
+
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.days.collectLatest { dayItems ->
+                    daysAdapter.submitList(dayItems)
+                }
+            }
+        }
+
 
         binding.profileDate.text = getCurrentDate()
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 if (sharedPreferences != null) {
-                    sharedPreferences.getString("token", "")?.let { mainViewModel.getUserIdByToken(it) }
+                    sharedPreferences.getString("token", "")
+                        ?.let { mainViewModel.getUserIdByToken(it) }
                     mainViewModel.userId.collectLatest { userId ->
                         viewModel.loadPets(userId)
                     }
@@ -85,13 +105,20 @@ class TreatmentFragment : Fragment() {
                 viewModel.pets.collect { pets ->
                     pets.firstOrNull()?.let { pet ->
                         viewModel.loadPrescriptionByPetId(pet.id)
-                        viewModel.prescriptions.collect { prescriptions ->
-                            prescriptionAdapter.submitList(prescriptions)
+                        binding.profileName.text = pet.name
 
-                        }
                     }
                 }
 
+            }
+        }
+
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.filteredPrescriptions.collect { prescriptions ->
+                    prescriptionAdapter.submitList(prescriptions)
+                }
             }
         }
 
