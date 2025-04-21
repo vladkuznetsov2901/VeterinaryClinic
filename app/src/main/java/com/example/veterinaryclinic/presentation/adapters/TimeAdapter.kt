@@ -13,48 +13,88 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.veterinaryclinic.R
 import com.example.veterinaryclinic.data.models.treatment.MedicationScheduleDto
+import com.example.veterinaryclinic.databinding.ItemDayBinding
+import com.example.veterinaryclinic.databinding.ItemMedicineBinding
+import com.example.veterinaryclinic.databinding.ItemMedicineTimeBinding
+import com.example.veterinaryclinic.databinding.SampleDoctorItemBinding
+import com.example.veterinaryclinic.presentation.adapters.DaysAdapter.ItemDayViewHolder
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class TimeAdapter : ListAdapter<MedicationScheduleDto, TimeAdapter.TimeViewHolder>(DiffCallback()) {
 
+    var onDayClick: ((MedicationScheduleDto) -> Unit)? = null
+    private var selectedPosition: Int = -1
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_medicine_time, parent, false)
-        return TimeViewHolder(view)
+        return TimeViewHolder(
+            ItemMedicineTimeBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: TimeViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
-    }
+        with(holder.binding) {
 
-    class TimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun bind(schedule: MedicationScheduleDto) {
-            val timeTextView = itemView.findViewById<TextView>(R.id.timeText)
+            timeText.text = formatPlannedTime(item.plannedTime)
 
-            timeTextView.text = formatPlannedTime(schedule.plannedTime)
-            val context = itemView.context
-
-            if (schedule.isTaken) {
-                timeTextView.setTextColor(ContextCompat.getColor(context, R.color.green))
+            if (position == selectedPosition) {
+                timeText.setTextColor(
+                    ContextCompat.getColor(
+                        root.context,
+                        R.color.black
+                    )
+                )
             } else {
-                timeTextView.setTextColor(ContextCompat.getColor(context, R.color.gray))
+                if (item.isTaken) {
+                    checkIcon.visibility = View.VISIBLE
+                    timeText.setTextColor(
+                        ContextCompat.getColor(
+                            root.context,
+                            R.color.green
+                        )
+                    )
+                } else {
+                    timeText.setTextColor(
+                        ContextCompat.getColor(
+                            root.context,
+                            R.color.gray
+                        )
+                    )
+                }
             }
-        }
 
-        @RequiresApi(Build.VERSION_CODES.O)
-        private fun formatPlannedTime(plannedTime: String): String {
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
-            val timeOnlyFormatter = DateTimeFormatter.ofPattern("HH:mm")
-            val dateTime = LocalDateTime.parse(plannedTime, formatter)
-            return "Принять в ${dateTime.format(timeOnlyFormatter)}"
+            root.setOnClickListener {
+                selectedPosition = if (selectedPosition == position) {
+                    -1
+                } else {
+                    position
+                }
+                notifyDataSetChanged()
+                onDayClick?.invoke(item)
+            }
+
         }
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun formatPlannedTime(plannedTime: String): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
+        val timeOnlyFormatter = DateTimeFormatter.ofPattern("HH:mm")
+        val dateTime = LocalDateTime.parse(plannedTime, formatter)
+        return "Принять в ${dateTime.format(timeOnlyFormatter)}"
+    }
+
+
+    class TimeViewHolder(val binding: ItemMedicineTimeBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     class DiffCallback : DiffUtil.ItemCallback<MedicationScheduleDto>() {
         override fun areItemsTheSame(

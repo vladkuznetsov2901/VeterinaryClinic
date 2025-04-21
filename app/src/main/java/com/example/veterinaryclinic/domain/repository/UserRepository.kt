@@ -1,6 +1,6 @@
 package com.example.veterinaryclinic.domain.repository
 
-import com.example.veterinaryclinic.data.models.TokenResponse
+import com.example.veterinaryclinic.data.models.users.TokenResponse
 
 interface UserRepository {
 

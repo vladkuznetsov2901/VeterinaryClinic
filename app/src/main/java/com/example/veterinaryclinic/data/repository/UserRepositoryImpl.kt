@@ -2,7 +2,7 @@ package com.example.veterinaryclinic.data.repository
 
 import com.example.veterinaryclinic.data.api.ktorApiService
 import com.example.veterinaryclinic.data.models.LoginData
-import com.example.veterinaryclinic.data.models.TokenResponse
+import com.example.veterinaryclinic.data.models.users.TokenResponse
 import com.example.veterinaryclinic.domain.repository.UserRepository
 import javax.inject.Inject
 

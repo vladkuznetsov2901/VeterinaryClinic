@@ -1,9 +1,7 @@
 package com.example.veterinaryclinic.domain.repository
 
-import com.example.veterinaryclinic.data.models.DoctorWithSpecializationDTO
-import com.example.veterinaryclinic.data.models.LoginData
-import com.example.veterinaryclinic.data.models.Promo
-import com.example.veterinaryclinic.data.models.TokenResponse
+import com.example.veterinaryclinic.data.models.doctors.DoctorWithSpecializationDTO
+import com.example.veterinaryclinic.data.models.users.TokenResponse
 
 interface DoctorsRepository {
 

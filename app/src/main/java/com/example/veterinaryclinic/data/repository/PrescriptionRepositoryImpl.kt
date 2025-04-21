@@ -7,4 +7,8 @@ import com.example.veterinaryclinic.domain.repository.PrescriptionRepository
 class PrescriptionRepositoryImpl : PrescriptionRepository {
     override suspend fun getPrescriptionsForPet(petId: Int): List<PrescriptionDto> =
         ktorApiService.getPrescriptionsForPet(petId)
+
+    override suspend fun markScheduleAsTaken(scheduleId: Int): Boolean {
+        return ktorApiService.markScheduleAsTaken(scheduleId).isSuccessful
+    }
 }

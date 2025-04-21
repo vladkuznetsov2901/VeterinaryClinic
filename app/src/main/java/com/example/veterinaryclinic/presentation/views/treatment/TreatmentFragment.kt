@@ -1,4 +1,4 @@
-package com.example.veterinaryclinic.presentation.views
+package com.example.veterinaryclinic.presentation.views.treatment
 
 import android.content.Context
 import android.os.Build
@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.content.edit
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,13 +20,10 @@ import com.example.veterinaryclinic.presentation.adapters.PrescriptionAdapter
 import com.example.veterinaryclinic.presentation.viewmodels.MainViewModel
 import com.example.veterinaryclinic.presentation.viewmodels.TreatmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.Calendar
-import java.util.Date
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TreatmentFragment : Fragment() {
@@ -33,7 +32,7 @@ class TreatmentFragment : Fragment() {
     private var _binding: FragmentTreatmentBinding? = null
     private val binding get() = requireNotNull(_binding)
 
-    private val viewModel: TreatmentViewModel by viewModels()
+    private val viewModel: TreatmentViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by viewModels()
 
 
@@ -62,9 +61,9 @@ class TreatmentFragment : Fragment() {
         binding.medicinesRecycler.adapter = prescriptionAdapter
 
         val today = LocalDate.now()
-        binding.profileDate.text =
-            "${today.dayOfMonth}.${today.monthValue}.${today.year}"
         viewModel.onDateSelected(today)
+        binding.profileDate.text = "${today.dayOfMonth}.${today.monthValue}.${today.year}"
+
 
 
 
@@ -74,14 +73,33 @@ class TreatmentFragment : Fragment() {
                 "${selectedDate.dayOfMonth}.${selectedDate.monthValue}.${selectedDate.year}"
         }
 
+        prescriptionAdapter.onItemClick = { prescriptionItem ->
+            viewModel.setMedicine(prescriptionItem)
+
+            val dialog = MedicineDialogFragment()
+            dialog.show(parentFragmentManager, "MedicineDialog")
+        }
+
+
+        var isFirstLoad = true
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.days.collectLatest { dayItems ->
-                    daysAdapter.submitList(dayItems)
+                    daysAdapter.submitList(dayItems) {
+                        if (isFirstLoad) {
+                            val todayIndex = dayItems.indexOfFirst { it.date == today }
+                            if (todayIndex != -1) {
+                                binding.daysRecycler.scrollToPosition(todayIndex - 4)
+                                viewModel.onDateSelected(today)
+                            }
+                            isFirstLoad = false
+                        }
+                    }
                 }
             }
         }
+
 
 
         binding.profileDate.text = getCurrentDate()
@@ -105,6 +123,9 @@ class TreatmentFragment : Fragment() {
                 viewModel.pets.collect { pets ->
                     pets.firstOrNull()?.let { pet ->
                         viewModel.loadPrescriptionByPetId(pet.id)
+                        sharedPreferences?.edit {
+                            putInt("petId", pet.id)
+                        }
                         binding.profileName.text = pet.name
 
                     }

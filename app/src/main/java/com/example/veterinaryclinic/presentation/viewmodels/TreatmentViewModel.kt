@@ -13,6 +13,7 @@ import com.example.veterinaryclinic.data.models.treatment.PrescriptionDto
 import com.example.veterinaryclinic.data.models.treatment.PrescriptionItemWithMedicationDto
 import com.example.veterinaryclinic.domain.usecases.GetPrescriptionsForPetUseCase
 import com.example.veterinaryclinic.domain.usecases.GetUserPetsUseCase
+import com.example.veterinaryclinic.domain.usecases.MarkScheduleTakenUseCase
 import com.example.veterinaryclinic.features.toMedicationDisplayList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +29,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TreatmentViewModel @Inject constructor(
     private val getUserPetsUseCase: GetUserPetsUseCase,
-    private val getPrescriptionsForPetUseCase: GetPrescriptionsForPetUseCase
+    private val getPrescriptionsForPetUseCase: GetPrescriptionsForPetUseCase,
+    private val markScheduleTakenUseCase: MarkScheduleTakenUseCase
 ) : ViewModel() {
 
     private val _pets = MutableStateFlow<List<PetDto>>(emptyList())
@@ -47,6 +49,10 @@ class TreatmentViewModel @Inject constructor(
     private val _days = MutableStateFlow<List<DayItem>>(emptyList())
     val days = _days.asStateFlow()
 
+    val selectedMedicine = MutableLiveData<PrescriptionItemWithMedicationDto>()
+    fun setMedicine(medicine: PrescriptionItemWithMedicationDto) {
+        selectedMedicine.value = medicine
+    }
 
     fun loadPets(userId: Int) {
         viewModelScope.launch {
@@ -152,4 +158,15 @@ class TreatmentViewModel @Inject constructor(
             _filteredPrescriptions.value = filtered
         }
     }
+
+
+
+    fun markScheduleAsTaken(scheduleId: Int, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            val success = markScheduleTakenUseCase(scheduleId)
+            if (success) onSuccess()
+        }
+    }
+
+
 }

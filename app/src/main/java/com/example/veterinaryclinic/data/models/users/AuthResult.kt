@@ -1,4 +1,4 @@
-package com.example.veterinaryclinic.data.models
+package com.example.veterinaryclinic.data.models.users
 
 sealed class AuthResult {
     data class Success(val token: String) : AuthResult()

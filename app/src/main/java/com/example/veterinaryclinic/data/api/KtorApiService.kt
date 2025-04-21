@@ -3,14 +3,14 @@ package com.example.veterinaryclinic.data.api
 
 import com.example.veterinaryclinic.data.models.chats.ChatDTO
 import com.example.veterinaryclinic.data.models.chats.CreateChatRequest
-import com.example.veterinaryclinic.data.models.DoctorWithSpecializationDTO
+import com.example.veterinaryclinic.data.models.doctors.DoctorWithSpecializationDTO
 import com.example.veterinaryclinic.data.models.LoginData
 import com.example.veterinaryclinic.data.models.chats.MessageDTO
-import com.example.veterinaryclinic.data.models.TokenResponse
+import com.example.veterinaryclinic.data.models.users.TokenResponse
 import com.example.veterinaryclinic.data.models.RegistrationData
 import com.example.veterinaryclinic.data.models.chats.SendMessageRequest
 import com.example.veterinaryclinic.data.models.SpecializationDTO
-import com.example.veterinaryclinic.data.models.UserIdResponse
+import com.example.veterinaryclinic.data.models.users.UserIdResponse
 import com.example.veterinaryclinic.data.models.chats.FullChatDTO
 import com.example.veterinaryclinic.data.models.treatment.PetDto
 import com.example.veterinaryclinic.data.models.treatment.PrescriptionDto
@@ -102,7 +102,8 @@ interface KtorApiService {
     @GET("prescriptions/active/{petId}")
     suspend fun getPrescriptionsForPet(@Path("petId") petId: Int): List<PrescriptionDto>
 
-
+    @POST("schedule/mark-taken/{scheduleId}")
+    suspend fun markScheduleAsTaken(@Path("scheduleId") scheduleId: Int): Response<Unit>
 }
 
 val ktorRetrofit = Retrofit.Builder().client(

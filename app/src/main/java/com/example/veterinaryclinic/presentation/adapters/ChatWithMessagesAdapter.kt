@@ -5,18 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.veterinaryclinic.R
-import com.example.veterinaryclinic.data.models.DoctorWithSpecializationDTO
-import com.example.veterinaryclinic.data.models.Promo
 import com.example.veterinaryclinic.data.models.chats.MessageDTO
 import com.example.veterinaryclinic.databinding.SampleDoctorItemBinding
 import com.example.veterinaryclinic.databinding.SampleDoctorMessageItemBinding
-import com.example.veterinaryclinic.databinding.SamplePromoImageItemBinding
 import com.example.veterinaryclinic.databinding.SampleUserMessageItemBinding
-import java.time.LocalDate
-import java.time.Period
-import java.time.format.DateTimeFormatter
 
 class ChatWithMessagesAdapter(private val currentUserRole: String) :
     ListAdapter<MessageDTO, RecyclerView.ViewHolder>(DiffCallback()) {

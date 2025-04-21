@@ -13,14 +13,11 @@ import androidx.navigation.fragment.findNavController
 import com.example.veterinaryclinic.R
 import com.example.veterinaryclinic.databinding.FragmentSignInBinding
 import com.example.veterinaryclinic.presentation.viewmodels.MainViewModel
-import com.example.veterinaryclinic.presentation.viewmodels.MainViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import kotlin.getValue
 import androidx.core.content.edit
-import com.example.veterinaryclinic.data.models.AuthResult
-import kotlinx.coroutines.flow.first
+import com.example.veterinaryclinic.data.models.users.AuthResult
 
 @AndroidEntryPoint
 class SignInFragment : Fragment() {

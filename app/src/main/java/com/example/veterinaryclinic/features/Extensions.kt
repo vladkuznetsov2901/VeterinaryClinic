@@ -12,6 +12,10 @@ fun List<PrescriptionDto>.toMedicationDisplayList(): List<PrescriptionItemWithMe
                     medicationName = medication.medicationName,
                     instruction = (item.dosage + " " + item.notes.lowercase()),
                     schedule = item.schedule,
+                    dosage = item.dosage,
+                    frequency = item.frequency,
+                    durationDays = item.durationDays,
+                    medicationDosage = medication.medicationDosage,
                     imageUrl = medication.imageUrl
                 )
             } else {

@@ -4,10 +4,10 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.veterinaryclinic.data.models.AuthResult
+import com.example.veterinaryclinic.data.models.users.AuthResult
 import com.example.veterinaryclinic.data.models.chats.ChatDTO
 import com.example.veterinaryclinic.data.models.chats.CreateChatRequest
-import com.example.veterinaryclinic.data.models.DoctorWithSpecializationDTO
+import com.example.veterinaryclinic.data.models.doctors.DoctorWithSpecializationDTO
 import com.example.veterinaryclinic.data.models.chats.MessageDTO
 import com.example.veterinaryclinic.data.models.chats.SendMessageRequest
 import com.example.veterinaryclinic.data.models.SpecializationDTO

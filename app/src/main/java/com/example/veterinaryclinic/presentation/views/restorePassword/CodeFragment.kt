@@ -1,4 +1,4 @@
-package com.example.veterinaryclinic.presentation.views
+package com.example.veterinaryclinic.presentation.views.restorePassword
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,16 +10,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.veterinaryclinic.R
-import com.example.veterinaryclinic.databinding.FragmentForgotPasswordBinding
-import com.example.veterinaryclinic.databinding.FragmentNewPasswordBinding
-import com.example.veterinaryclinic.presentation.viewmodels.MainViewModel
+import com.example.veterinaryclinic.databinding.FragmentCodeBinding
 import com.example.veterinaryclinic.presentation.viewmodels.RestorePasswordViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NewPasswordFragment : Fragment() {
-    private var _binding: FragmentNewPasswordBinding? = null
+class CodeFragment : Fragment() {
+
+
+    private var _binding: FragmentCodeBinding? = null
 
     private val binding get() = _binding!!
 
@@ -34,40 +34,42 @@ class NewPasswordFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentNewPasswordBinding.inflate(layoutInflater)
+        _binding = FragmentCodeBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val bundle = Bundle()
 
         val userEmail = arguments?.getString("user_email")
-        val userCode = arguments?.getString("user_code")
-
 
         binding.sendButton.setOnClickListener {
-            val pass = binding.newPasswordInput.text.toString()
-            val confirm = binding.repeatPasswordInput.text.toString()
-            if (userEmail != null && userCode != null) {
-                viewModel.changePassword(pass, confirm, userEmail, userCode)
-            }
+            val code = binding.codeInput.text.toString()
+            bundle.putString("user_email", userEmail)
+            bundle.putString("user_code", code)
+            userEmail?.let { it1 -> viewModel.verifyCode(it1, code) }
         }
 
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
                 when (state) {
-                    is RestorePasswordViewModel.UiState.PasswordChanged -> {
-                        Toast.makeText(requireContext(), "Пароль успешно изменён", Toast.LENGTH_SHORT).show()
-                        findNavController().popBackStack(R.id.authFragment, false)
+                    is RestorePasswordViewModel.UiState.CodeVerified -> {
+                        findNavController().navigate(
+                            R.id.action_codeFragment_to_newPasswordFragment,
+                            bundle
+                        )
+                        viewModel.resetState()
                     }
+
                     is RestorePasswordViewModel.UiState.Error -> {
                         Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                     }
+
                     else -> {}
                 }
             }
         }
-
 
     }
 
@@ -75,4 +77,5 @@ class NewPasswordFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

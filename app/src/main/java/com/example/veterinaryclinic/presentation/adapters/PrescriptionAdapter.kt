@@ -17,6 +17,8 @@ import java.time.LocalDateTime
 class PrescriptionAdapter :
     ListAdapter<PrescriptionItemWithMedicationDto, PrescriptionAdapter.ItemMedicineViewHolder>(DiffCallback()) {
 
+    var onItemClick: ((PrescriptionItemWithMedicationDto) -> Unit)? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemMedicineViewHolder {
         return ItemMedicineViewHolder(
@@ -47,7 +49,13 @@ class PrescriptionAdapter :
             val timesAdapter = TimeAdapter()
             medicineTimesRecycler.adapter = timesAdapter
             timesAdapter.submitList(item.schedule)
+
+            root.setOnClickListener {
+                onItemClick?.invoke(item)
+            }
         }
+
+
     }
 
 

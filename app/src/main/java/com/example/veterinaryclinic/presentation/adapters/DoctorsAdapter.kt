@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.veterinaryclinic.R
-import com.example.veterinaryclinic.data.models.DoctorWithSpecializationDTO
+import com.example.veterinaryclinic.data.models.doctors.DoctorWithSpecializationDTO
 import com.example.veterinaryclinic.databinding.SampleDoctorItemBinding
 import java.time.LocalDate
 import java.time.Period

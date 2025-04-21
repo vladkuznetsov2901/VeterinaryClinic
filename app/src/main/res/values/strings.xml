@@ -48,4 +48,6 @@
     <string name="forgot_password_txt">Забыли пароль?</string>
     <string name="no_connection_txt">Упс... \nНет подключения к интернету</string>
     <string name="try_one_more_time_txt">Попробуйте ещё раз</string>
+    <string name="duration_course_txt">Продолжительность курса %1$d дней</string>
+    <string name="medication_name_dialog_txt">%1$s %2$s</string>
 </resources>

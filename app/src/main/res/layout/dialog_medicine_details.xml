@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_day_default"
+    android:gravity="center_horizontal"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Закрыть (крестик) -->
+    <ImageView
+        android:id="@+id/closeButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="end"
+        android:contentDescription="Закрыть"
+        android:src="@drawable/ic_close" />
+
+    <!-- Картинка лекарства -->
+    <ImageView
+        android:id="@+id/medicineImage"
+        android:layout_width="151dp"
+        android:layout_height="125dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/cladaxxa_img" />
+
+    <!-- Название -->
+    <TextView
+        android:id="@+id/medicineName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Кладакса 40 мг/10 мг"
+        android:textColor="#7A49B5"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Информация -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical">
+
+        <!-- После еды -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_meal" />
+
+            <TextView
+                android:id="@+id/instruction_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="После еды"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- 1/4 таблетки -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_pill" />
+
+            <TextView
+                android:id="@+id/dosage_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1/4 таблетки"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- 2 раза в день -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_calendar_twice" />
+
+            <TextView
+                android:id="@+id/more_instruction_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2 раза в день с промежутком в 12 ч"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- Продолжительность курса -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_duration"
+            android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/duration_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Продолжительность курса 14 дней"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/schedule_recycler"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="17dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+    <!-- Кнопки -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/btnCancel"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginEnd="22dp"
+            android:background="@drawable/bg_day_default"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_cancel" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnAccept"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@drawable/bg_day_default"
+            android:gravity="center"
+
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_check_green"
+                app:tint="#7859A3" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnReminder"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="22dp"
+            android:background="@drawable/bg_day_default"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_reminder" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Отменить"
+            android:textColor="@color/purple"
+
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Принять"
+            android:textColor="@color/purple"
+
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/montserrat_medium"
+
+            android:text="Напомнить"
+            android:textColor="@color/purple"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.veterinaryclinic.presentation.views
+package com.example.veterinaryclinic.presentation.views.restorePassword
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,8 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.veterinaryclinic.R
 import com.example.veterinaryclinic.databinding.FragmentForgotPasswordBinding
-import com.example.veterinaryclinic.databinding.FragmentHomeBinding
-import com.example.veterinaryclinic.presentation.viewmodels.MainViewModel
 import com.example.veterinaryclinic.presentation.viewmodels.RestorePasswordViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

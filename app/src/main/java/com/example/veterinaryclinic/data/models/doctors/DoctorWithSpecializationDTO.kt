@@ -1,4 +1,4 @@
-package com.example.veterinaryclinic.data.models
+package com.example.veterinaryclinic.data.models.doctors
 
 data class DoctorWithSpecializationDTO(
     val doctorId: Int,
