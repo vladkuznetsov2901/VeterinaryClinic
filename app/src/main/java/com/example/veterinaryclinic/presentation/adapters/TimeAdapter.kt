@@ -1,5 +1,6 @@
 package com.example.veterinaryclinic.presentation.adapters
 
+import android.graphics.Typeface
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -48,9 +49,10 @@ class TimeAdapter : ListAdapter<MedicationScheduleDto, TimeAdapter.TimeViewHolde
                 timeText.setTextColor(
                     ContextCompat.getColor(
                         root.context,
-                        R.color.black
+                        R.color.btn_accept_color
                     )
                 )
+                timeText.setTypeface(null, Typeface.BOLD)
             } else {
                 if (item.isTaken) {
                     checkIcon.visibility = View.VISIBLE
@@ -68,6 +70,7 @@ class TimeAdapter : ListAdapter<MedicationScheduleDto, TimeAdapter.TimeViewHolde
                         )
                     )
                 }
+                timeText.setTypeface(null, Typeface.NORMAL)
             }
 
             root.setOnClickListener {

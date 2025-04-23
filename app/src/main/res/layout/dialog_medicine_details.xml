@@ -164,6 +164,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/btnCancel_ic"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/ic_cancel" />
@@ -181,10 +182,11 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/btnAccept_ic"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/ic_check_green"
-                app:tint="#7859A3" />
+                app:tint="@color/btn_accept_color" />
 
 
         </LinearLayout>
@@ -199,6 +201,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/btnReminder_ic"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/ic_reminder" />
@@ -213,6 +216,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/btnCancel_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -223,6 +227,7 @@
             android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/btnAccept_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
@@ -233,6 +238,7 @@
             android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/btnReminder_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"

@@ -13,5 +13,9 @@
     <color name="medicine_default_bg">#F9F5FF</color>
     <color name="color_planned">#7F7F7F</color>
     <color name="green">#58B344</color>
+    <color name="btn_accept_color">#7859A3</color>
+    <color name="btn_cancel_color">#BD4C4C</color>
+    <color name="primaryText">#3B215F</color>
+    <color name="secondaryText">#666666</color>
 
 </resources>
