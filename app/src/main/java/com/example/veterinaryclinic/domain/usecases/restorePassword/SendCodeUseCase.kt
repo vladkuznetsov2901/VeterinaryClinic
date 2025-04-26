@@ -1,4 +1,4 @@
-package com.example.veterinaryclinic.domain.usecases
+package com.example.veterinaryclinic.domain.usecases.restorePassword
 
 import com.example.veterinaryclinic.domain.repository.RestorePasswordRepository
 import javax.inject.Inject

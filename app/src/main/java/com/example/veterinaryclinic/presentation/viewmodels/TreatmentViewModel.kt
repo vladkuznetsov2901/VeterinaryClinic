@@ -8,12 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.veterinaryclinic.data.models.treatment.DayItem
 import com.example.veterinaryclinic.data.models.treatment.DayState
+import com.example.veterinaryclinic.data.models.treatment.MedicationDto
 import com.example.veterinaryclinic.data.models.treatment.PetDto
-import com.example.veterinaryclinic.data.models.treatment.PrescriptionDto
 import com.example.veterinaryclinic.data.models.treatment.PrescriptionItemWithMedicationDto
-import com.example.veterinaryclinic.domain.usecases.GetPrescriptionsForPetUseCase
-import com.example.veterinaryclinic.domain.usecases.GetUserPetsUseCase
-import com.example.veterinaryclinic.domain.usecases.MarkScheduleTakenUseCase
+import com.example.veterinaryclinic.domain.usecases.notifications.ScheduleNotificationUseCase
+import com.example.veterinaryclinic.domain.usecases.prescription.GetPrescriptionsForPetUseCase
+import com.example.veterinaryclinic.domain.usecases.users.GetUserPetsUseCase
+import com.example.veterinaryclinic.domain.usecases.prescription.MarkScheduleTakenUseCase
 import com.example.veterinaryclinic.features.toMedicationDisplayList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +31,8 @@ import javax.inject.Inject
 class TreatmentViewModel @Inject constructor(
     private val getUserPetsUseCase: GetUserPetsUseCase,
     private val getPrescriptionsForPetUseCase: GetPrescriptionsForPetUseCase,
-    private val markScheduleTakenUseCase: MarkScheduleTakenUseCase
+    private val markScheduleTakenUseCase: MarkScheduleTakenUseCase,
+    private val scheduleNotificationUseCase: ScheduleNotificationUseCase
 ) : ViewModel() {
 
     private val _pets = MutableStateFlow<List<PetDto>>(emptyList())
@@ -112,7 +114,8 @@ class TreatmentViewModel @Inject constructor(
         val filtered = filterPrescriptionsByDate(prescriptions.value, date)
         _filteredPrescriptions.value = filtered
 
-        val updatedDays = updateDayStates(generateDaysOfMonth(date.year, date.monthValue), prescriptions.value)
+        val updatedDays =
+            updateDayStates(generateDaysOfMonth(date.year, date.monthValue), prescriptions.value)
         _days.value = updatedDays
     }
 
@@ -133,7 +136,10 @@ class TreatmentViewModel @Inject constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun updateDayStates(days: List<DayItem>, prescriptions: List<PrescriptionItemWithMedicationDto>): List<DayItem> {
+    fun updateDayStates(
+        days: List<DayItem>,
+        prescriptions: List<PrescriptionItemWithMedicationDto>
+    ): List<DayItem> {
         return days.map { day ->
             val hasMedication = prescriptions.any { prescription ->
                 prescription.schedule.any { schedule ->
@@ -156,15 +162,23 @@ class TreatmentViewModel @Inject constructor(
         selectedDate.value?.let { selected ->
             val filtered = filterPrescriptionsByDate(prescriptions, selected)
             _filteredPrescriptions.value = filtered
+            scheduleNotificationsForPrescriptions(filtered)
         }
     }
-
 
 
     fun markScheduleAsTaken(scheduleId: Int, onSuccess: () -> Unit) {
         viewModelScope.launch {
             val success = markScheduleTakenUseCase(scheduleId)
             if (success) onSuccess()
+        }
+    }
+
+    private fun scheduleNotificationsForPrescriptions(prescriptions: List<PrescriptionItemWithMedicationDto>) {
+        prescriptions.forEach { prescription ->
+            prescription.schedule.forEach { medicationSchedule ->
+                scheduleNotificationUseCase(medicationSchedule, prescription.medicationName)
+            }
         }
     }
 

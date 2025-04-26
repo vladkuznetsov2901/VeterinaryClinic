@@ -139,6 +139,7 @@ class TreatmentFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.filteredPrescriptions.collect { prescriptions ->
                     prescriptionAdapter.submitList(prescriptions)
+
                 }
             }
         }

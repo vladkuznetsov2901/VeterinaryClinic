@@ -1,4 +1,4 @@
-package com.example.veterinaryclinic.domain.usecases
+package com.example.veterinaryclinic.domain.usecases.users
 
 import com.example.veterinaryclinic.data.models.treatment.PetDto
 import com.example.veterinaryclinic.domain.repository.PetRepository

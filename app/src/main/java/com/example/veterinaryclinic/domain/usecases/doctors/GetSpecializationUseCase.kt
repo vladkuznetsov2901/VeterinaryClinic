@@ -1,8 +1,7 @@
-package com.example.veterinaryclinic.domain.usecases
+package com.example.veterinaryclinic.domain.usecases.doctors
 
 import com.example.veterinaryclinic.data.models.SpecializationDTO
 import com.example.veterinaryclinic.domain.repository.SpecializationRepository
-import com.example.veterinaryclinic.domain.repository.UserRepository
 import javax.inject.Inject
 
 class GetSpecializationUseCase @Inject constructor(private val repository: SpecializationRepository) {

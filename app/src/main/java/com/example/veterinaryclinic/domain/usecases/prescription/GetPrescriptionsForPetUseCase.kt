@@ -1,4 +1,4 @@
-package com.example.veterinaryclinic.domain.usecases
+package com.example.veterinaryclinic.domain.usecases.prescription
 
 import com.example.veterinaryclinic.data.models.treatment.PrescriptionDto
 import com.example.veterinaryclinic.domain.repository.PrescriptionRepository

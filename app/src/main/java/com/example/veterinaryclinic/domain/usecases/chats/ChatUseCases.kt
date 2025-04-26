@@ -1,4 +1,4 @@
-package com.example.veterinaryclinic.domain.usecases
+package com.example.veterinaryclinic.domain.usecases.chats
 
 import com.example.veterinaryclinic.data.models.chats.ChatDTO
 import com.example.veterinaryclinic.data.models.chats.CreateChatRequest
