@@ -20,7 +20,7 @@ import androidx.core.content.edit
 import com.example.veterinaryclinic.data.models.users.AuthResult
 
 @AndroidEntryPoint
-class SignInFragment : Fragment() {
+class   SignInFragment : Fragment() {
 
     private var _binding: FragmentSignInBinding? = null
 

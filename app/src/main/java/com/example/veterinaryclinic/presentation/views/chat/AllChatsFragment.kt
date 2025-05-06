@@ -15,7 +15,6 @@ import com.example.veterinaryclinic.R
 import com.example.veterinaryclinic.databinding.FragmentAllChatsBinding
 import com.example.veterinaryclinic.presentation.adapters.ChatsAdapter
 import com.example.veterinaryclinic.presentation.viewmodels.MainViewModel
-import com.example.veterinaryclinic.presentation.viewmodels.MainViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

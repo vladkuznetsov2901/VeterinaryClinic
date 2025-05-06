@@ -18,7 +18,6 @@ import com.example.veterinaryclinic.presentation.adapters.NonScrollableLinearLay
 import com.example.veterinaryclinic.presentation.adapters.PromoAdapter
 import com.example.veterinaryclinic.presentation.adapters.SpecializationAdapter
 import com.example.veterinaryclinic.presentation.viewmodels.MainViewModel
-import com.example.veterinaryclinic.presentation.viewmodels.MainViewModelFactory
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
